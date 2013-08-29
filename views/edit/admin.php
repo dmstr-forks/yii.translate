@@ -1,11 +1,15 @@
-<h1><?php echo TranslateModule::t('Manage Messages')?></h1>
-
+<h1><?php echo TranslateModule::t('Translations') ?> <small><?php echo TranslateModule::t('Manage')?></small></h1>
+<br />
 <?php 
 $source=MessageSource::model()->findAll();
-$this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('TbGridView', array(
 	'id'=>'message-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
+        'pager' => array(
+            'class' => 'TbPager',
+            'displayFirstAndLast' => true,
+        ),
 	'columns'=>array(
 		array(
             'name'=>'id',
@@ -25,7 +29,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
         'translation',
         array(
-            'class'=>'CButtonColumn',
+            'class'=>'TbButtonColumn',
             'template'=>'{update}{delete}',
             'updateButtonUrl'=>'Yii::app()->getController()->createUrl("update",array("id"=>$data->id,"language"=>$data->language))',
             'deleteButtonUrl'=>'Yii::app()->getController()->createUrl("delete",array("id"=>$data->id,"language"=>$data->language))',

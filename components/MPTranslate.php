@@ -104,18 +104,23 @@ class MPTranslate extends CApplicationComponent{
      * @param string $type accepted types are : link and button
      * @return string
      */
-    function translateLink($label='Translate',$type='link'){
-        $form=CHtml::form(Yii::app()->getController()->createUrl('/translate/translate/index'));
-        if(count(self::$messages))
-            foreach(self::$messages as $index=>$message)
-                foreach($message as $name=>$value)
-                    $form.=CHtml::hiddenField(self::ID."-missing[$index][$name]",$value);
-        if($type==='button')
-            $form.=CHtml::submitButton($label);
-        else
-            $form.=CHtml::linkButton($label);
-        $form.=CHtml::endForm();
-        return $form;
+    function translateLink($label = 'Translate', $type = 'link')
+    {
+        if ($this->hasMessages()) {
+            $form = CHtml::form(Yii::app()->getController()->createUrl('/translate/translate/index'));
+            if (count(self::$messages))
+                foreach (self::$messages as $index => $message)
+                    foreach ($message as $name => $value)
+                        $form.=CHtml::hiddenField(self::ID . "-missing[$index][$name]", $value);
+            if ($type === 'button')
+                $form.=CHtml::submitButton($label);
+            else
+                $form.=CHtml::linkButton($label);
+            $form.=CHtml::endForm();
+            return $form;
+        } else {
+            return false;
+        }
     }
     function hasMessages(){
         return count(self::$messages)>0;

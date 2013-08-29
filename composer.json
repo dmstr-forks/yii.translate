@@ -1,0 +1,22 @@
+{
+    "name": "gusnips/yii-translate",
+    "description": "Yii Translate Component",
+    "keywords": ["yii", "web", "application", "Translate"],
+    "homepage": "https://github.com/gusnips",
+    "type": "yii-application",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "",
+            "email": "",
+            "homepage": ""
+        }
+    ],
+    "dependencies": {
+        "clevertech/yiibooster" : "1.*"
+    },
+    "suggest": {
+        "Translate": "Any yii translate extension"
+    }
+}
+

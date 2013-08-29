@@ -1,10 +1,15 @@
-<h1><?php echo TranslateModule::t('Missing Translations')." - ".TranslateModule::translator()->acceptedLanguages[Yii::app()->getLanguage()]?></h1>
+<h1><?php echo TranslateModule::translator()->acceptedLanguages[TranslateModule::translator()->getLanguage()]?> <small><?php echo TranslateModule::t('Missing Translations') ?></small></h1>
+<br />
 <?php 
 $source=MessageSource::model()->findAll();
-$this->widget('zii.widgets.grid.CGridView', array(
+$this->widget('TbGridView', array(
 	'id'=>'message-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
+        'pager' => array(
+                'class' => 'TbPager',
+                'displayFirstAndLast' => true,
+            ),
 	'columns'=>array(
 		'id',
         array(
@@ -16,16 +21,16 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'filter'=>CHtml::listData($source,'category','category'),
         ),
         array(
-            'class'=>'CButtonColumn',
-            'template'=>'{create}{delete}',
+            'class'=>'TbButtonColumn',
+            'template'=>'{create} {delete}',
             'deleteButtonUrl'=>'Yii::app()->getController()->createUrl("missingdelete",array("id"=>$data->id))',
             'buttons'=>array(
                 'create'=>array(
-                    'label'=>TranslateModule::t('Create'),
-                    'url'=>'Yii::app()->getController()->createUrl("create",array("id"=>$data->id,"language"=>Yii::app()->getLanguage()))'
+                    'label'=> 'Create',
+                    'url'=>'Yii::app()->getController()->createUrl("Create",array("id"=>$data->id,"language"=>Yii::app()->getLanguage()))'
                 )
             ),
-            'header'=>TranslateModule::translator()->dropdown(),
+            'header'=> (!TranslateModule::translator()->useApplicationLanguage) ? TranslateModule::translator()->dropdown() : false,
         )
 	),
 )); ?>

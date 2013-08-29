@@ -1,5 +1,5 @@
 <?php $action=$model->getIsNewRecord() ? 'Create' : 'Update';?>
-<h1><?php echo TranslateModule::t(($action) . ' Message')." # ".$model->id." - ".TranslateModule::translator()->acceptedLanguages[$model->language]; ?></h1>
+<h1><?php echo TranslateModule::translator()->acceptedLanguages[$model->language]?> <small><?php echo TranslateModule::t(($action) . ' Message')." # ".$model->id ?></small></h1>
 
 <div class="form">
 
@@ -28,9 +28,10 @@
 		<?php echo $form->error($model,'translation'); ?>
 	</div>
 
-	<div class="row buttons">
-		<?php echo CHtml::submitButton(TranslateModule::t($action)); ?>
-	</div>
+        <div class="row buttons">
+            <?php echo CHtml::submitButton(TranslateModule::t($action)); ?>
+            <?php echo CHtml::link(TranslateModule::t('Cancel'), array('/' . TranslateModule::translator()->getLanguage() . '/translate/edit/missing'), array('class' => 'btn')); ?>
+        </div>
 
 <?php $this->endWidget(); ?>
 

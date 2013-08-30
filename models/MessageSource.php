@@ -62,7 +62,7 @@ class MessageSource extends CActiveRecord{
 
             $criteria->addCondition('not exists (select `id` from `Message` `m` where `m`.`language`=:lang and `m`.`id` = `t`.`id`)');
 
-            $criteria->params[':lang'] = 'de_de';
+            $criteria->params[':lang'] = $this->language;
             $criteria->order = 'message ASC';
 
             return MessageSource::model()->findAll($criteria);

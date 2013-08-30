@@ -36,13 +36,13 @@ class Message extends CActiveRecord{
             $criteria = new CDbCriteria;
             $criteria->select = 't.*,source.message as message,source.category as category';
             $criteria->with = array('source');
-
+            
             $criteria->compare('t.id', $this->id);
             $criteria->compare('t.language', $this->language, true);
             $criteria->compare('t.translation', $this->translation, true);
             $criteria->compare('source.category', $this->category, true);
             $criteria->compare('source.message', $this->message, true);
-
+           
             return new CActiveDataProvider(get_class($this), array(
                 'criteria' => $criteria,
                 'pagination' => array(
@@ -50,13 +50,4 @@ class Message extends CActiveRecord{
                 ),
             ));
         }
-        
-        /**
-         * get all translated messages
-         */
-        function getAllTranslations()
-        {
-            return MessageSource::model()->findAll();
-        }
-
 }

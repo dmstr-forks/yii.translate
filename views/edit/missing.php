@@ -1,5 +1,16 @@
-<h1><?php echo TranslateModule::translator()->acceptedLanguages[TranslateModule::translator()->getLanguage()] ?> <small><?php echo TranslateModule::t('Missing Translations') ?></small></h1>
+<?php
+/* @var $this EditController */
+
+$this->breadcrumbs = array(
+    $this->module->id,
+);
+
+$this->widget("TbBreadcrumbs", array("links" => $this->breadcrumbs)) 
+?>
+
+<h1><?php echo Yii::t('Translate', TranslateModule::translator()->acceptedLanguages[TranslateModule::translator()->getLanguage()]) ?> <small><?php echo Yii::t('Translate', TranslateModule::t('Missing Translations')) ?></small></h1>
 <br />
+
 <?php
 $this->widget('TbGridView', array(
     'id' => 'message-grid',

@@ -1,3 +1,12 @@
+<?php
+/* @var $this EditController */
+
+$this->breadcrumbs = array(
+    $this->module->id,
+);
+
+$this->widget("TbBreadcrumbs", array("links" => $this->breadcrumbs)) 
+?>
 <?php 
     $language=TranslateModule::translator();
     $languageKey=$language::ID; 

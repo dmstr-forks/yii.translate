@@ -16,7 +16,7 @@ class EditController extends TranslateBaseController
             return array(
                 array(
                     'allow',
-                    'actions'   => array('create','update','delete','admin','missing','missingdelete','editableSaver'),
+                    'actions'   => array('create','update','delete','admin','missing','missingdelete','translation', 'editableSaver'),
                     'roles'     => array('Translator'),
                 ),
                 array(
@@ -156,7 +156,7 @@ class EditController extends TranslateBaseController
         public function actionEditableSaver()
         {
             Yii::import('EditableSaver'); //or you can add import 'ext.editable.*' to config
-            $es = new EditableSaver('MessageSource'); // classname of model to be updated
+            $es = new EditableSaver('Message'); // classname of model to be updated
             $es->update();
         }
 }

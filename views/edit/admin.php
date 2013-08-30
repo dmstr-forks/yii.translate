@@ -1,5 +1,16 @@
+<?php
+/* @var $this EditController */
+
+$this->breadcrumbs = array(
+    $this->module->id,
+);
+
+$this->widget("TbBreadcrumbs", array("links" => $this->breadcrumbs)) 
+?>
+
 <h1><?php echo TranslateModule::t('Translations') ?> <small><?php echo TranslateModule::t('Manage') ?></small></h1>
 <br />
+
 <?php
 $this->widget('TbGridView', array(
     'id' => 'message-grid',

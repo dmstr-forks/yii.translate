@@ -8,7 +8,7 @@ class Message extends CActiveRecord{
 
 	function rules(){
 		return array(
-            array('id,language,translation','required'),
+                        array('id,language,translation','required'),
 			array('id', 'numerical', 'integerOnly'=>true),
 			array('language', 'length', 'max'=>16),
 			array('translation', 'safe'),
@@ -18,7 +18,7 @@ class Message extends CActiveRecord{
     
 	function relations(){
 		return array(
-            'source'=>array(self::BELONGS_TO,'MessageSource','id'),
+                    'source'=>array(self::BELONGS_TO,'MessageSource',array('id','id')),
 		);
 	}
 	function attributeLabels(){
@@ -26,25 +26,37 @@ class Message extends CActiveRecord{
 			'id'=> TranslateModule::t('ID'),
 			'language'=> TranslateModule::t('Language'),
 			'translation'=> TranslateModule::t('Translation'),
-            'category'=> MessageSource::model()->getAttributeLabel('category'),
-            'message'=> MessageSource::model()->getAttributeLabel('message'),
+                        'category'=> MessageSource::model()->getAttributeLabel('category'),
+                        'message'=> MessageSource::model()->getAttributeLabel('message'),
 		);
 	}
 
-	function search(){
-		$criteria=new CDbCriteria;
-        $criteria->select='t.*,source.message as message,source.category as category';
-        $criteria->with=array('source');
+	function search()
+        {
+            $criteria = new CDbCriteria;
+            $criteria->select = 't.*,source.message as message,source.category as category';
+            $criteria->with = array('source');
+
+            $criteria->compare('t.id', $this->id);
+            $criteria->compare('t.language', $this->language, true);
+            $criteria->compare('t.translation', $this->translation, true);
+            $criteria->compare('source.category', $this->category, true);
+            $criteria->compare('source.message', $this->message, true);
+
+            return new CActiveDataProvider(get_class($this), array(
+                'criteria' => $criteria,
+                'pagination' => array(
+                    'pageSize' => 10,
+                ),
+            ));
+        }
         
-		$criteria->compare('t.id',$this->id);
-		$criteria->compare('t.language',$this->language,true);
-		$criteria->compare('t.translation',$this->translation,true);
-        $criteria->compare('source.category',$this->category,true);
-        $criteria->compare('source.message',$this->message,true);
-        
-		return new CActiveDataProvider(get_class($this), array(
-			'criteria'=>$criteria,
-		));
-	}
+        /**
+         * get all translated messages
+         */
+        function getAllTranslations()
+        {
+            return MessageSource::model()->findAll();
+        }
 
 }

@@ -17,7 +17,7 @@ class MessageSource extends CActiveRecord{
     
 	function relations(){
 		return array(
-                    'mt'=>array(self::HAS_MANY,'Message',array('id','id')),
+                    'mt'=>array(self::HAS_MANY,'Message',array('id','id'),'order' => 't.message ASC'),
 		);
 	}
 	function attributeLabels(){
@@ -57,7 +57,7 @@ class MessageSource extends CActiveRecord{
         public function getMissingTranslations()
         {
             $criteria = new CDbCriteria;
-            
+           
             $criteria->with = array('mt');
 
             $criteria->addCondition('not exists (select `id` from `Message` `m` where `m`.`language`=:lang and `m`.`id` = `t`.`id`)');
@@ -65,6 +65,18 @@ class MessageSource extends CActiveRecord{
             $criteria->params[':lang'] = $this->language;
             $criteria->order = 'message ASC';
 
+            return MessageSource::model()->findAll($criteria);
+        }
+        
+        /**
+         * get all translated messages
+         */
+        static public function getAllTranslations()
+        {
+            $criteria               = new CDbCriteria;
+            $criteria->with         = array('mt');
+            $criteria->condition    = 'exists (SELECT `id` FROM `Message` `m` WHERE `m`.`id` = `t`.`id`)';
+            
             return MessageSource::model()->findAll($criteria);
         }
 

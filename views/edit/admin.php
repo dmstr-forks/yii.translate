@@ -18,11 +18,11 @@ $this->widget('TbGridView', array(
         ),
         array(
             'name' => 'message',
-            'filter' => CHtml::listData(MessageSource::getAllTranslations(), 'message', 'message'),
+            'filter' => CHtml::listData(MessageSource::getAllTranslations('message'), 'message', 'message'),
         ),
         array(
             'name' => 'category',
-            'filter' => CHtml::listData(MessageSource::model()->findAll(), 'category', 'category'),
+            'filter' => CHtml::listData(MessageSource::getAllTranslations('message'), 'category', 'category'),
         ),
         array(
             'name' => 'language',

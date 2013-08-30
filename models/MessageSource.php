@@ -54,7 +54,7 @@ class MessageSource extends CActiveRecord{
         /**
          * get remaining missing translations in the current language
          */
-        public function getMissingTranslations()
+        public function getMissingTranslations($orderBy = 'message ASC')
         {
             $criteria = new CDbCriteria;
            
@@ -62,8 +62,8 @@ class MessageSource extends CActiveRecord{
 
             $criteria->addCondition('not exists (select `id` from `Message` `m` where `m`.`language`=:lang and `m`.`id` = `t`.`id`)');
 
-            $criteria->params[':lang'] = $this->language;
-            $criteria->order = 'message ASC';
+            $criteria->params[':lang']  = $this->language;
+            $criteria->order            = $orderBy;
 
             return MessageSource::model()->findAll($criteria);
         }
@@ -71,11 +71,12 @@ class MessageSource extends CActiveRecord{
         /**
          * get all translated messages
          */
-        static public function getAllTranslations()
+        static public function getAllTranslations($orderBy = 'message ASC')
         {
-            $criteria               = new CDbCriteria;
-            $criteria->with         = array('mt');
-            $criteria->condition    = 'exists (SELECT `id` FROM `Message` `m` WHERE `m`.`id` = `t`.`id`)';
+            $criteria                   = new CDbCriteria;
+            $criteria->with             = array('mt');
+            $criteria->condition        = 'exists (SELECT `id` FROM `Message` `m` WHERE `m`.`id` = `t`.`id`)';
+            $criteria->order            = $orderBy;
             
             return MessageSource::model()->findAll($criteria);
         }

@@ -14,11 +14,11 @@ $this->widget('TbGridView', array(
         'id',
         array(
             'name' => 'message',
-            'filter' => CHtml::listData($model->missingTranslations, 'message', 'message'),
+            'filter' => CHtml::listData($model->getMissingTranslations('message'), 'message', 'message'),
         ),
         array(
             'name' => 'category',
-            'filter' => CHtml::listData($model->missingTranslations, 'category', 'category'),
+            'filter' => CHtml::listData($model->getMissingTranslations('category'), 'category', 'category'),
         ),
         array(
             'class' => 'TbButtonColumn',

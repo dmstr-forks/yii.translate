@@ -124,4 +124,14 @@ class EditController extends TranslateBaseController
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
+        
+        /**
+         * editable saver
+         */
+        public function actionEditableSaver()
+        {
+            Yii::import('EditableSaver'); //or you can add import 'ext.editable.*' to config
+            $es = new EditableSaver('MessageSource'); // classname of model to be updated
+            $es->update();
+        }
 }

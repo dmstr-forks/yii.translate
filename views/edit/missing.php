@@ -1,9 +1,10 @@
 <?php
 /* @var $this EditController */
 
-$this->breadcrumbs = array(
-    $this->module->id,
-);
+if (Yii::app()->getModule('crud')) {
+    $this->breadcrumbs['crud'] = array('/crud');
+}
+$this->breadcrumbs[] = $this->module->id;
 
 $this->widget("TbBreadcrumbs", array("links" => $this->breadcrumbs)) 
 ?>

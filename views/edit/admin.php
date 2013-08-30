@@ -1,15 +1,14 @@
 <?php
 /* @var $this EditController */
 
-if (Yii::app()->getModule('crud')) {
-    $this->breadcrumbs['crud'] = array('/crud');
-}
-$this->breadcrumbs[] = $this->module->id;
+
+$this->breadcrumbs[] = Yii::t('Translate', 'Translations');
+$this->breadcrumbs[] = '';
 
 $this->widget("TbBreadcrumbs", array("links" => $this->breadcrumbs)) 
 ?>
 
-<h1><?php echo TranslateModule::t('Translations') ?> <small><?php echo TranslateModule::t('Manage') ?></small></h1>
+<h1><small><?php echo Yii::t('Translate', 'Manage') ?></small></h1>
 <br />
 
 <?php

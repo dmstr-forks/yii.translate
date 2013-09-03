@@ -4,7 +4,6 @@ class EditController extends TranslateBaseController
 {
     public $defaultAction='admin';
     
-<<<<<<< HEAD
     public function filters()
     {
         return array(
@@ -25,30 +24,6 @@ class EditController extends TranslateBaseController
         );
     }
     
-=======
-        public function filters()
-        {
-            return array(
-                'accessControl',
-            );
-        }
-
-        public function accessRules()
-        {
-            return array(
-                array(
-                    'allow',
-                    'actions'   => array('create','update','delete','admin','missing','missingdelete','translation', 'editableSaver'),
-                    'roles'     => array('Translator'),
-                ),
-                array(
-                    'deny',
-                    'users'     => array('*'),
-                )
-            );
-        }
-        
->>>>>>> 694674afba22646cccff399d9a3fd332eb2fb14f
         /**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.

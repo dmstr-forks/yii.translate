@@ -3,7 +3,6 @@
 class TranslateController extends TranslateBaseController
 {
 
-<<<<<<< HEAD
     public function filters()
     {
         return array(
@@ -24,8 +23,6 @@ class TranslateController extends TranslateBaseController
         );
     }
 
-=======
->>>>>>> 694674afba22646cccff399d9a3fd332eb2fb14f
     public function actionIndex()
     {
         if (isset($_POST['Message'])) {

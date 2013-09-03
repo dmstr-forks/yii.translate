@@ -3,7 +3,28 @@
 class EditController extends TranslateBaseController
 {
     public $defaultAction='admin';
-    /**
+    
+    public function filters()
+    {
+        return array(
+            'accessControl',
+        );
+    }
+
+    public function accessRules()
+    {
+        return array(
+            array('allow',
+                'actions'       => array('create', 'editableSaver', 'update', 'delete', 'admin', 'view', 'missing','missingDelete'),
+                'expression'    => 'Yii::app()->user->checkAccess("Translate.*")',
+            ),
+            array('deny',
+                'users' => array('*'),
+            ),
+        );
+    }
+    
+        /**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated

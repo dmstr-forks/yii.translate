@@ -1,34 +1,57 @@
-<h1><?php echo TranslateModule::t('Manage Messages')?></h1>
+<?php
+/* @var $this EditController */
 
-<?php 
-$source=MessageSource::model()->findAll();
-$this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'message-grid',
-	'dataProvider'=>$model->search(),
-	'filter'=>$model,
-	'columns'=>array(
-		array(
-            'name'=>'id',
-            'filter'=>CHtml::listData($source,'id','id'),
+
+$this->breadcrumbs[] = Yii::t('Translate', 'Translations');
+$this->breadcrumbs[] = '';
+
+$this->widget("TbBreadcrumbs", array("links" => $this->breadcrumbs)) 
+?>
+
+<h1><small><?php echo Yii::t('Translate', 'Manage') ?></small></h1>
+<br />
+
+<?php
+$this->widget('TbGridView', array(
+    'id' => 'message-grid',
+    'dataProvider' => $model->search(),
+    'filter' => $model,
+    'template' => '{pager}{items}{pager}',
+    'pager' => array(
+        'class' => 'TbPager',
+        'displayFirstAndLast' => true,
+    ),
+    'columns' => array(
+        array(
+            'name' => 'id',
+            'type' => 'raw',
+            'value' => $model->id,
         ),
         array(
-            'name'=>'message',
-            'filter'=>CHtml::listData($source,'message','message'),
+            'name' => 'message',
+            'filter' => CHtml::listData(MessageSource::getAllTranslations('message'), 'message', 'message'),
         ),
         array(
-            'name'=>'category',
-            'filter'=>CHtml::listData($source,'category','category'),
+            'name' => 'category',
+            'filter' => CHtml::listData(MessageSource::getAllTranslations('message'), 'category', 'category'),
         ),
         array(
-            'name'=>'language',
-            'filter'=>CHtml::listData($model->findAll(new CDbCriteria(array('group'=>'language'))),'language','language')
+            'name' => 'language',
+            'filter' => CHtml::listData($model->findAll(new CDbCriteria(array('group' => 'language'))), 'language', 'language')
         ),
-        'translation',
         array(
-            'class'=>'CButtonColumn',
-            'template'=>'{update}{delete}',
-            'updateButtonUrl'=>'Yii::app()->getController()->createUrl("update",array("id"=>$data->id,"language"=>$data->language))',
-            'deleteButtonUrl'=>'Yii::app()->getController()->createUrl("delete",array("id"=>$data->id,"language"=>$data->language))',
-        )
-	),
-)); ?>
+            'class' => 'editable.EditableColumn',
+            'name' => 'translation',
+            'editable' => array(
+                'url' => $this->createUrl('/translate/edit/editableSaver'),
+            )
+        ),
+        array(
+            'class' => 'TbButtonColumn',
+            'template' => '{update}{delete}',
+            'updateButtonUrl' => 'Yii::app()->getController()->createUrl("update",array("id"=>$data->id,"language"=>$data->language))',
+            'deleteButtonUrl' => 'Yii::app()->getController()->createUrl("delete",array("id"=>$data->id,"language"=>$data->language))',
+        ),
+    )
+));
+?>

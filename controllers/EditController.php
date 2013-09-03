@@ -4,6 +4,7 @@ class EditController extends TranslateBaseController
 {
     public $defaultAction='admin';
     
+<<<<<<< HEAD
     public function filters()
     {
         return array(
@@ -24,6 +25,30 @@ class EditController extends TranslateBaseController
         );
     }
     
+=======
+        public function filters()
+        {
+            return array(
+                'accessControl',
+            );
+        }
+
+        public function accessRules()
+        {
+            return array(
+                array(
+                    'allow',
+                    'actions'   => array('create','update','delete','admin','missing','missingdelete','translation', 'editableSaver'),
+                    'roles'     => array('Translator'),
+                ),
+                array(
+                    'deny',
+                    'users'     => array('*'),
+                )
+            );
+        }
+        
+>>>>>>> 694674afba22646cccff399d9a3fd332eb2fb14f
         /**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
@@ -43,6 +68,7 @@ class EditController extends TranslateBaseController
 
 		$this->render('form',array('model'=>$model));
 	}
+        
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
@@ -60,10 +86,11 @@ class EditController extends TranslateBaseController
 
 		$this->render('form',array('model'=>$model));
 	}
-    /**
+        
+        /**
 	 * Deletes a record
 	 * @param integer $id the ID of the model to be deleted
-     * @param string $language the language of the model to de deleted
+         * @param string $language the language of the model to de deleted
 	 */
 	public function actionDelete($id,$language)
 	{
@@ -95,7 +122,7 @@ class EditController extends TranslateBaseController
 			'model'=>$model,
 		));
 	}
-    /**
+        /**
 	 * 
 	 */
 	public function actionMissing()
@@ -112,10 +139,10 @@ class EditController extends TranslateBaseController
 			'model'=>$model,
 		));
 	}
-    /**
+        /**
 	 * Deletes a record
 	 * @param integer $id the ID of the model to be deleted
-     * @param string $language the language of the model to de deleted
+         * @param string $language the language of the model to de deleted
 	 */
 	public function actionMissingdelete($id)
 	{
@@ -145,4 +172,14 @@ class EditController extends TranslateBaseController
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
+        
+        /**
+         * editable saver
+         */
+        public function actionEditableSaver()
+        {
+            Yii::import('EditableSaver'); //or you can add import 'ext.editable.*' to config
+            $es = new EditableSaver('Message'); // classname of model to be updated
+            $es->update();
+        }
 }

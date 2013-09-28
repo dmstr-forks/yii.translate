@@ -40,6 +40,7 @@ class TranslateController extends TranslateBaseController
             Yii::app()->getUser()->setReturnUrl($referer);
         $translator = TranslateModule::translator();
         $key = $translator::ID . "-missing";
+        $postMissing = array();
         if (isset($_POST[$key]))
             $postMissing = $_POST[$key];
         elseif (Yii::app()->getUser()->hasState($key))

@@ -14,6 +14,7 @@
          * @return string the message to translate or the translated message if local message source file exist
          */        
         static public function findInPhpMessageSource($event) {
+            Yii::setPathOfAlias('translate',dirname(__FILE__).'/..');
             Yii::import('translate.models.MessageSource');
             $attributes = array('category' => $event->category, 'message' => $event->message);
             if (($model = MessageSource::model()->find('message=:message AND category=:category', $attributes)) === null) {

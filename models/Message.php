@@ -1,4 +1,8 @@
 <?php
+
+Yii::setPathOfAlias('translate', dirname(__FILE__)."/..");
+Yii::import('translate.TranslateModule');
+
 class Message extends CActiveRecord{
     
     public $message,$category;

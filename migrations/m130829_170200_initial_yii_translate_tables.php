@@ -7,7 +7,7 @@
 class m130829_170200_initial_yii_translate_tables extends CDbMigration
 {
 
-    public function safeUp()
+    public function up()
     {
         if (Yii::app()->db->schema instanceof CMysqlSchema) {
             $this->execute('CREATE TABLE SourceMessage
@@ -32,7 +32,7 @@ class m130829_170200_initial_yii_translate_tables extends CDbMigration
         }
     }
 
-    public function safeDown()
+    public function down()
     {
         $this->dropTable("Message");
         $this->dropTable("SourceMessage");

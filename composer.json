@@ -12,6 +12,9 @@
             "homepage": ""
         }
     ],
+    "autoload": {
+        "classmap": ["components/"]
+    },
     "dependencies": {
         "clevertech/yiibooster" : "1.*"
     },

@@ -27,9 +27,22 @@
             if ($model->id) {
                 if (substr($event->language, 0, 2) !== substr(Yii::app()->sourceLanguage, 0, 2)) {
                     Yii::import('translate.models.Message');
-                    $dir = Yii::app()->basePath . '/messages/' . $event->language . '/*';
+
+                    if (strstr($event->category,".")) {
+                        $basePath = strstr($event->category,".",true);
+                        $class=new ReflectionClass(strstr($event->category,".",true));
+                        $basePath = dirname($class->getFileName());
+                        $catalog = substr(strstr($event->category,"."),1);
+                    } else {
+                        $basePath = Yii::app()->basePath;
+                        $catalog = $event->category;
+                    }
+
+                    //$dir = $basePath . '/messages/' . $event->language . '/*';
+                    $dir = $basePath . '/messages/' . $event->language . '/'.$catalog.'.php';
+
                     foreach (glob($dir) as $file) {
-                        foreach (require($file) AS $key => $translation) {
+                        foreach (require($file) AS $key => $translation) { // TODO: remove, we don't need to look at several files
                             $attributes = array('translation' => $translation, 'language' => $event->language);
                             if ($key == $event->message && ($messageModel = Message::model()->find('translation=:translation AND language=:language', $attributes)) === null) {
                                 $messageModel = new Message;

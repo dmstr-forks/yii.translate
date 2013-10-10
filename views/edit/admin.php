@@ -40,7 +40,7 @@ $this->widget('TbGridView', array(
             'filter' => CHtml::listData($model->findAll(new CDbCriteria(array('group' => 'language'))), 'language', 'language')
         ),
         array(
-            'class' => 'editable.EditableColumn',
+            'class' => 'TbEditableColumn',
             'name' => 'translation',
             'editable' => array(
                 'url' => $this->createUrl('/translate/edit/editableSaver'),

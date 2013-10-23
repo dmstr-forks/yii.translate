@@ -28,23 +28,26 @@ class TranslationConverter
                 );
             }
         }
-
         if ($model->id) {
-            if (substr($event->language, 0, 2) !== substr(Yii::app()->sourceLanguage, 0, 2)) {
-                Yii::import('translate.models.Message');
+            #if (substr($event->language, 0, 2) !== substr(Yii::app()->sourceLanguage, 0, 2)) {
+            Yii::import('translate.models.Message');
 
-                if (strstr($event->category, ".")) {
-                    $basePath = strstr($event->category, ".", true);
-                    $class    = new ReflectionClass(strstr($event->category, ".", true));
-                    $basePath = dirname($class->getFileName());
-                    $catalog  = substr(strstr($event->category, "."), 1);
-                } else {
-                    $basePath = Yii::app()->basePath;
-                    $catalog  = $event->category;
-                }
+            if (strstr($event->category, ".")) {
+                $basePath = strstr($event->category, ".", true);
+                $class    = new ReflectionClass(strstr($event->category, ".", true));
+                $basePath = dirname($class->getFileName());
+                $catalog  = substr(strstr($event->category, "."), 1);
+            } else {
+                $basePath = Yii::app()->basePath;
+                $catalog  = $event->category;
+            }
 
-                $file = $basePath . '/messages/' . $event->language . '/' . $catalog . '.php';
+            $files   = array();
+            $files[] = $basePath . '/messages/' . $event->language . '/' . $catalog . '.php';
+            $files[] = $basePath . '/messages/' . substr($event->language, 0, 2) . '/' . $catalog . '.php';
 
+            foreach ($files AS $file) {
+                #var_dump($file);
                 if (is_file($file)) {
                     $messages = require($file);
                     if (isset($messages[$event->message]) && $messages[$event->message]) {
@@ -53,17 +56,18 @@ class TranslationConverter
                         Yii::trace(
                             "Found translation ({$event->language}) for '{$event->message}' => '{$translation}'"
                         );
+
+                        // double check if no translation exists
                         $attributes = array(
                             'id'        => $model->id,
                             ':language' => $event->language
                         );
-
-                        // double check if no translation exists
                         $messageModel = Message::model()->find(
                             'id=:id AND language=:language',
                             $attributes
                         );
 
+                        #echo "scve:$file";
                         if (($messageModel) === null) {
                             $messageModel             = new Message;
                             $messageModel->attributes = array(
@@ -76,6 +80,7 @@ class TranslationConverter
                                     "Saved translation ({$event->language}) for '{$event->message}' => '{$translation}'"
                                 );
                                 $event->message = $translation;
+                                break;
                             } else {
                                 Yii::log(
                                     TranslateModule::t(
@@ -87,6 +92,7 @@ class TranslationConverter
                     }
                 }
             }
+            #}
 
             if (substr($event->language, 0, 2) !== substr(Yii::app()->sourceLanguage, 0, 2) || Yii::app()->getMessages(
                 )->forceTranslation

@@ -20,6 +20,19 @@ class MessageSource extends CActiveRecord{
                     'mt'=>array(self::HAS_MANY,'Message',array('id','id'),'order' => 't.message ASC'),
 		);
 	}
+    
+    public function scopes()
+    {
+        return array(
+            'localized' => array(
+                'condition'  => 'language = :bd',
+                'params'    => array(
+                    ':bd'   => Yii::app()->language,
+                )          
+            )  
+        );
+    }
+    
 	function attributeLabels(){
 		return array(
 			'id'=> TranslateModule::t('ID'),
@@ -42,6 +55,7 @@ class MessageSource extends CActiveRecord{
 
             $criteria->params[':lang'] = $this->language;
             $criteria->order = 'message ASC';
+            $criteria->scopes = 'localized';
 
             return new CActiveDataProvider(get_class($this), array(
                 'criteria' => $criteria,

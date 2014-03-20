@@ -16,7 +16,7 @@
         "classmap": ["components/"]
     },
     "dependencies": {
-        "clevertech/yiibooster" : "1.*"
+        "clevertech/yiibooster" : "2.*"
     },
     "suggest": {
         "Translate": "Any yii translate extension"

@@ -40,7 +40,7 @@ return array(
             'acceptedLanguages'=>array(
                   'en'=>'English',
                   'pt'=>'Portugues',
-                  'es'=>'Español'
+                  'es'=>'Espaï¿½ol'
             ),
         ),
     )
